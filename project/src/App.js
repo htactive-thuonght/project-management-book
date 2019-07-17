@@ -18,7 +18,8 @@ class App extends React.Component {
     this.state = {
       categories: [],
       products: [],
-      name: ""
+      name: "",
+      addProduct:{name :'', type: '', quantity: '', status: '', image: ''} 
     };
   }
 
@@ -66,9 +67,14 @@ class App extends React.Component {
       name: ""
     });
   };
+  addBook = name => {
+    this.props.firebase.getCategories().push({ name });
+    this.setState({
+      addProduct: { name: "", type: "", quantity: "", status: "", image: "" }
+    });
+  };
 
   deleteCategory = index => {
-    console.log(index);
     this.props.firebase.categories(index).remove();
   };
   editCategories = (index, data) => {
@@ -96,19 +102,20 @@ class App extends React.Component {
                 <CategoriesList
                   categories={categories}
                   deleteCategory={this.deleteCategory}
-                  editCategories={this.editCategories}
+                  
                 />
               )}
             />
           </Switch>
-          <Route path="/addProduct" component={() => <FormAddProduct />} />
+          <Route path="/addProduct" component={() => <FormAddProduct addBook={this.addBook} />} />
+          <Route path="/updateCat/:id" component={(match) =><FormUpdateCat categories={categories} editCategories={this.editCategories} match={match}/>} />
           <Route
             path="/addCategory"
             component={() => (
-              <FormAddCategories addCategory={this.addCategory} />
+              <FormAddCategories  addCategory={this.addCategory} />
             )}
           />
-          <Route path="/updateCat" component={<FormUpdateCat />} />
+         
         </div>
       </Router>
     );

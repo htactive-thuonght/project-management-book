@@ -4,7 +4,6 @@ export default class CategoriesList extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    console.log(this.props);
   }
   deleteCategory = id => {
     this.props.deleteCategory(id);
@@ -45,10 +44,9 @@ export default class CategoriesList extends Component {
                             className="fa fa-trash"
                             onClick={() => this.deleteCategory(item.id)}
                           />
-                          <NavLink to={{ pathname: "/updateCat" }}>
+                          <NavLink to={`/updateCat/${item.id}`}>
                             <i className="fa fa-pencil" />
                           </NavLink>
-                          
                         </td>
                       </tr>
                     );
